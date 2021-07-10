@@ -15,8 +15,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $student = DB::table('student')->get();
-        return view('home', ['student'=> $student]);
+        $student = Students::all();
+        return view('home', compact('student'));
     }
 
     /**
@@ -26,7 +26,7 @@ class HomeController extends Controller
      */
     public function create()
     {
-        return view('tamdat');
+        return view('tambah_data');
     }
     
     /**
@@ -38,7 +38,6 @@ class HomeController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        
         Students::create([ 
             'nama' => $request->nama,
             'npm' => $request->npm,
@@ -46,7 +45,7 @@ class HomeController extends Controller
             'jurusan' => $request->jurusan,
         ]);
         return redirect('home');
-        // dd($request->all());
+        
         
     }
 
@@ -69,7 +68,6 @@ class HomeController extends Controller
      */
     public function edit($id)
     {
-        
         $data = Students::find($id);
         return view('edit', ['student' => $data]);
     }
@@ -82,11 +80,7 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        // $data = Students::find($id);
-        // $data->update($request->all());
-        // return redirect ('home')->with('sukses', 'Update berhasil'); 
-        
+    { 
         $data = Students::find($id);
         $data->update([ 
             'nama' => $request->nama,
@@ -94,7 +88,6 @@ class HomeController extends Controller
             'email' => $request->email,
             'jurusan' => $request->jurusan,
         ]);
-        // $data->update();
         return redirect('home')->with('Success', 'Update berhasil');
     }
 
